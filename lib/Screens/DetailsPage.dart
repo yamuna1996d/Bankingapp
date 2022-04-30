@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bankingapp/Screens/View.dart';
+import 'package:bankingapp/Screens/phoneDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -8,14 +9,13 @@ import 'package:http/http.dart' as http;
 import '../Models/UserModel.dart';
 
 class Details extends StatefulWidget {
-
-@override
-_DetailsState createState() => _DetailsState();
+  @override
+  _DetailsState createState() => _DetailsState();
 }
 
 class _DetailsState extends State<Details> {
-  String name = "", discription = "",userid="";
-  final GlobalKey _formGlobalKey=GlobalKey();
+  String name = "", discription = "", userid = "";
+  final GlobalKey _formGlobalKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +28,8 @@ class _DetailsState extends State<Details> {
                   top: 50,
                   bottom: 0,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 10),
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 10),
                     child: Container(
                       width: 340,
                       decoration: BoxDecoration(
@@ -41,14 +41,18 @@ class _DetailsState extends State<Details> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(top: 25,),
+                              padding: const EdgeInsets.only(
+                                top: 25,
+                              ),
                               child: Container(
-                                child: Text("Product Details", style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 1
-                                ),),
+                                child: Text(
+                                  "Product Details",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 1),
+                                ),
                               ),
                             ),
                             Padding(
@@ -58,7 +62,8 @@ class _DetailsState extends State<Details> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     new Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         new Text(
@@ -81,14 +86,15 @@ class _DetailsState extends State<Details> {
                                     children: <Widget>[
                                       new Flexible(
                                         child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10),
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
                                           child: new TextFormField(
                                             onChanged: (String value) {
                                               userid = value;
                                             },
                                             decoration: const InputDecoration(
-                                                disabledBorder: InputBorder.none,
+                                                disabledBorder:
+                                                    InputBorder.none,
                                                 hintText: "Enter Userid"),
                                           ),
                                         ),
@@ -103,7 +109,8 @@ class _DetailsState extends State<Details> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     new Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         new Text(
@@ -126,17 +133,19 @@ class _DetailsState extends State<Details> {
                                     children: <Widget>[
                                       new Flexible(
                                         child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10),
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
                                           child: new TextFormField(
                                             onChanged: (String value) {
                                               name = value;
                                             },
                                             decoration: const InputDecoration(
-                                                disabledBorder: InputBorder.none,
+                                                disabledBorder:
+                                                    InputBorder.none,
                                                 hintText: "Enter Product Name"),
                                             validator: (value) {
-                                              if (value == null || value.isEmpty) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
                                                 return 'Enter Your name';
                                               }
                                               return null;
@@ -154,7 +163,8 @@ class _DetailsState extends State<Details> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
                                     new Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         new Text(
@@ -177,17 +187,20 @@ class _DetailsState extends State<Details> {
                                     children: <Widget>[
                                       new Flexible(
                                         child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10),
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
                                           child: new TextFormField(
                                             onChanged: (String value) {
                                               discription = value;
                                             },
                                             decoration: const InputDecoration(
-                                                disabledBorder: InputBorder.none,
-                                                hintText: "Enter Product Description"),
+                                                disabledBorder:
+                                                    InputBorder.none,
+                                                hintText:
+                                                    "Enter Product Description"),
                                             validator: (value) {
-                                              if (value == null || value.isEmpty) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
                                                 return 'Enter Description';
                                               }
                                               return null;
@@ -198,7 +211,9 @@ class _DetailsState extends State<Details> {
                                     ],
                                   ),
                                 )),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Container(
@@ -208,25 +223,26 @@ class _DetailsState extends State<Details> {
                                   color: Colors.deepPurpleAccent,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-
                                 child: FlatButton(
                                   onPressed: () {
-                                      addDetails();
+                                    addDetails();
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10.0),
-                                    child: Text("Save",
+                                    child: Text(
+                                      "Save",
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontWeight: FontWeight.w500
-                                      ),
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Container(
@@ -236,24 +252,39 @@ class _DetailsState extends State<Details> {
                                   color: Colors.deepPurpleAccent,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-
                                 child: FlatButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewDetails()));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ViewDetails()));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         vertical: 10.0),
-                                    child: Text("Get",
+                                    child: Text(
+                                      "Get",
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontWeight: FontWeight.w500
-                                      ),
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PhoneDetails()));
+                                },
+                                child: Text("Next"))
                           ],
                         ),
                       ),
@@ -265,21 +296,21 @@ class _DetailsState extends State<Details> {
       ),
     );
   }
+
   void addDetails() async {
     final prefs = await SharedPreferences.getInstance();
     var url = Uri.parse("https://jsonplaceholder.typicode.com/posts");
-    final http.Response response = await http.post(
-        url,
+    final http.Response response = await http.post(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: json.encode(<String, String>{
           "title": name,
           "body": discription,
-          "userId":userid
-        })
-    );
+          "userId": userid
+        }));
     print(response.body);
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewDetails()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ViewDetails()));
   }
 }
