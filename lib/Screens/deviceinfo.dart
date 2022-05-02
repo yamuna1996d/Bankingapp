@@ -1,61 +1,55 @@
-import 'package:device_info/device_info.dart';
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-
-// void main() => runApp(MyApp());
-
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: DeviceInfo(),
-//     );
-//   }
-// }
 
 class DeviceInfo extends StatefulWidget {
   @override
-  _DeviceInfoState createState() => _DeviceInfoState();
+  State<DeviceInfo> createState() => _DeviceInfoState();
 }
 
 class _DeviceInfoState extends State<DeviceInfo> {
-  DeviceInfoPlugin deviceInfo =
-      DeviceInfoPlugin(); // instantiate device info plugin
-  late AndroidDeviceInfo androidDeviceInfo;
-  
- late String board, brand, device, hardware, host, id, manufacture, model, product, type, androidid;
- late bool isphysicaldevice;
+  late Map details = {};
+  late Map newMap;
+  late List<dynamic> sample = [];
+  late List<dynamic> sample2 = [];
+  Future<void> getDeviceDetails() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getDeviceinfo();
-  }
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
-  void getDeviceinfo() async {
-    androidDeviceInfo = await deviceInfo
-        .androidInfo; // instantiate Android Device Infoformation
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      print(info.toMap());
+    } else if (Platform.isIOS) {
+      IosDeviceInfo info = await deviceInfo.iosInfo;
+      print(info.toMap());
+    } else if (Platform.isLinux) {
+      LinuxDeviceInfo info = await deviceInfo.linuxInfo;
+      print(info.toMap());
+    } else if (Platform.isMacOS) {
+      MacOsDeviceInfo info = await deviceInfo.macOsInfo;
+      print(info.toMap());
+    } else if (Platform.isWindows) {
+      WindowsDeviceInfo info = await deviceInfo.windowsInfo;
+      print(info.toMap());
+    }
 
+    final info = await deviceInfo.deviceInfo;
+    print(info.toMap());
     setState(() {
-      board = androidDeviceInfo.board;
-      brand = androidDeviceInfo.brand;
-      device = androidDeviceInfo.device;
+      details = info.toMap();
 
-      hardware = androidDeviceInfo.hardware;
-      host = androidDeviceInfo.host;
-      id = androidDeviceInfo.id;
-      manufacture = androidDeviceInfo.manufacturer;
-      model = androidDeviceInfo.model;
-      product = androidDeviceInfo.product;
+      details.forEach((key, value) {
+        sample.add(key);
+        sample2.add(value);
 
-      type = androidDeviceInfo.type;
-      isphysicaldevice = androidDeviceInfo.isPhysicalDevice;
-      androidid = androidDeviceInfo.androidId;
+        print('Key: $key');
+        print('Value: $value');
+        print('------------------------------');
+      });
+      print("sample is $sample");
+      print("sample2 is $sample2");
     });
   }
 
@@ -63,107 +57,57 @@ class _DeviceInfoState extends State<DeviceInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Get Device Info in Flutter"),
+        title: const Text("Device details"),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Text(
-                "Welcome to Proto Coders Point",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 25,
-                    color: Colors.red),
-              ),
-            ),
-            Text(
-              "YOUR DEVICE INFORMATION",
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Board   : $board",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Brand   : $brand",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Device   : $device",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Hardware  :  $hardware ",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Host  : $host",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "ID   : $id",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Manufacture  : $manufacture",
-              style: TextStyle(fontSize: 20),
-            ),
-            Text(
-              "Model  : $model",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Product  :  $product",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Type   : $type",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Is Physical Device : $isphysicaldevice",
-              style: TextStyle(fontSize: 20),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              " Android ID: $androidid ",
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              details.isNotEmpty
+                  ? Container()
+                  : Center(
+                      child: ElevatedButton(
+                          onPressed: () {
+                            getDeviceDetails();
+                          },
+                          child: const Text("Get Phone Details")),
+                    ),
+              details.isEmpty
+                  ? Container()
+                  : Center(
+                      child: ListView.builder(
+                          itemCount: details.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, i) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    sample[i].toString(),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Text("*************"),
+                                  Text(
+                                    sample2[i].toString(),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                    )
+            ],
+          ),
         ),
       ),
     );
