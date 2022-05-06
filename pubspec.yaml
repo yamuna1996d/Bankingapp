@@ -41,6 +41,8 @@ dependencies:
   overlay_support: ^1.2.1
   connectivity_plus: ^2.3.0
   device_info_plus: ^3.2.3
+  flutter_windowmanager: ^0.2.0
+
  # device_info: ^0.4.1+5
 dev_dependencies:
   flutter_test:

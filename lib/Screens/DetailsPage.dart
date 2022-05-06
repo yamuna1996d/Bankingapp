@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bankingapp/Screens/View.dart';
 import 'package:bankingapp/Screens/phoneDetails.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,6 +17,11 @@ class Details extends StatefulWidget {
 class _DetailsState extends State<Details> {
   String name = "", discription = "", userid = "";
   final GlobalKey _formGlobalKey = GlobalKey();
+  @override
+  void initState() {
+    disableCapture();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -313,4 +319,10 @@ class _DetailsState extends State<Details> {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => ViewDetails()));
   }
+  //Prevent screenshot
+    Future<void> disableCapture() async {
+    //disable screenshots and record screen in current screen
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
 }
